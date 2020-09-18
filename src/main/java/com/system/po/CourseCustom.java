@@ -1,0 +1,30 @@
+package com.system.po;
+
+/**
+ * Course扩展类    课程
+ */
+public class CourseCustom extends Course {
+
+    //所属院系名
+    private String collegeName;
+
+    public CourseCustom() {
+    	
+    }
+    public void setcollegeName(String collegeName) {
+        this.collegeName = collegeName;
+    }
+
+    public String getcollegeName() {
+        return collegeName;
+    }
+
+	@Override
+	public String toString() {
+		return "CourseCustom [collegeName=" + collegeName + ", Courseid=" + getCourseid() + ", Coursename="
+				+ getCoursename() + ", Teacherid=" + getTeacherid() + ", Coursetime=" + getCoursetime()
+				+ ", Classroom=" + getClassroom() + ", Courseweek=" + getCourseweek() + ", Coursetype="
+				+ getCoursetype() + ", Collegeid=" + getCollegeid() + ", Score=" + getScore() + "]";
+	}
+    
+}

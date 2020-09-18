@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<!--teacherMapper-->
+
+<mapper namespace="com.system.mapper.TeacherMapperCustom">
+    <select id="findByKeyWord" resultType="TeacherCustom">
+        select teacher.*, college.collegeName
+        from teacher join college on teacher.collegeID = college.collegeID
+        where teacher.userName like concat("%",#{keyWord},"%")
+        or teacher.sex like concat("%",#{keyWord},"%")
+        or teacher.birthYear like binary concat("%",#{keyWord},"%")
+        or teacher.degree like concat("%",#{keyWord},"%")
+        or teacher.title like concat("%",#{keyWord},"%")
+        or teacher.grade like binary concat("%",#{keyWord},"%")
+        or college.collegeName like concat("%",#{keyWord},"%")
+        ORDER BY teacher.userID
+    </select>
+</mapper>
