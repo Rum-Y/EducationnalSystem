@@ -44,7 +44,7 @@
 	<context:component-scan base-package="com.system.controller" />
 
 	<!--全局错误信息处理器 只要实现HandlerExceptionResolver接口就是全局异常处理器 -->
-	<!-- <bean class="com.system.exception.CustomExceptionResolver" /> -->
+	<bean class="com.system.exception.CustomExceptionResolver" />
 
 	<!--视图解析器 -->
 	<!-- 需要配置解析jsp的视图解析器 jsp解析，默认使用jstl标签解析 -->
