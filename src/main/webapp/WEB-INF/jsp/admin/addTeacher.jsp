@@ -25,12 +25,14 @@
 				    </div>
 				    <div class="panel-body">
 						<form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/admin/addTeacher" id="editfrom" method="post">
+							  <p>${mes.userid}</p>
 							  <div class="form-group">
 							    <label for="inputEmail3" class="col-sm-2 control-label">工号</label>
 							    <div class="col-sm-10">
 							      <input type="number" class="form-control" id="inputEmail3" name="userid" placeholder="请输入学号">
 							    </div>
 							  </div>
+							  <p>${mes.username}</p>
 							  <div class="form-group">
 							    <label for="inputPassword3" class="col-sm-2 control-label">姓名</label>
 							    <div class="col-sm-10">

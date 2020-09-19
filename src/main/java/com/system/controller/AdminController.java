@@ -7,11 +7,16 @@ import com.system.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -64,8 +69,20 @@ public class AdminController {
 
      // 添加学生信息操作
     @RequestMapping(value = "/addStudent", method = {RequestMethod.POST})
-    public String addStudent(StudentCustom studentCustom, Model model) throws Exception {
+    public String addStudent(@Valid StudentCustom studentCustom,BindingResult binding, Model model) throws Exception {
+      HashMap<String,String> hashMap = new HashMap<String, String>();
+	  if (binding.hasErrors()) {
+		 List<FieldError> list = binding.getFieldErrors();
+		 for(FieldError err:list) {
+			 hashMap.put(err.getField(), err.getDefaultMessage());
+		 }
+		 model.addAttribute("mes", hashMap);
+		 List<College> collegeList = collegeService.finAll();
 
+	     model.addAttribute("collegeList", collegeList);
+		 return "admin/addStudent";
+      }else {
+        	  
         Boolean result = studentService.save(studentCustom);
 
         if (!result) {
@@ -81,6 +98,8 @@ public class AdminController {
 
         //重定向
         return "redirect:/admin/showStudent?pageNum="+Integer.MAX_VALUE;
+      }
+          
     }
 
     // 修改学生信息页面显示
@@ -105,12 +124,26 @@ public class AdminController {
 
     // 修改学生信息处理
     @RequestMapping(value = "/editStudent", method = {RequestMethod.POST})
-    public String editStudent(StudentCustom studentCustom,@RequestParam("pageNum") Integer pageNum) throws Exception {
-
-        studentService.updataById(studentCustom.getUserid(), studentCustom);
-
-        //重定向
-        return "redirect:/admin/showStudent?pageNum="+pageNum;
+    public String editStudent(@Valid StudentCustom studentCustom,BindingResult binding,
+    		@RequestParam("pageNum") Integer pageNum,Model model) throws Exception {
+    	HashMap<String,String> hashMap = new HashMap<String, String>();
+  	  	if (binding.hasErrors()) {
+			 List<FieldError> list = binding.getFieldErrors();
+			 for(FieldError err:list) {
+				 hashMap.put(err.getField(), err.getDefaultMessage());
+			 }
+			 model.addAttribute("mes", hashMap);
+			 List<College> collegeList = collegeService.finAll();
+		
+		     model.addAttribute("collegeList", collegeList);
+		     return "admin/editStudent";
+        }else {
+        	 
+        	 studentService.updataById(studentCustom.getUserid(), studentCustom);
+        	 
+        	 //重定向
+        	 return "redirect:/admin/showStudent?pageNum="+pageNum;
+         }
     }
 
     // 删除学生
@@ -159,23 +192,35 @@ public class AdminController {
 
     // 添加教师信息处理
     @RequestMapping(value = "/addTeacher", method = {RequestMethod.POST})
-    public String addTeacher(TeacherCustom teacherCustom, Model model) throws Exception {
-
-        Boolean result = teacherService.save(teacherCustom);
-
-        if (!result) {
-            model.addAttribute("message", "工号重复");
-            return "error";
+    public String addTeacher(@Valid TeacherCustom teacherCustom,BindingResult binding, Model model) throws Exception {
+    	HashMap<String,String> hashMap = new HashMap<String, String>();
+  	    if (binding.hasErrors()) {
+			 List<FieldError> list = binding.getFieldErrors();
+			 for(FieldError err:list) {
+				 hashMap.put(err.getField(), err.getDefaultMessage());
+			 }
+			 model.addAttribute("mes", hashMap);
+			 List<College> collegeList = collegeService.finAll();
+		
+		     model.addAttribute("collegeList", collegeList);
+			 return "admin/addTeacher";
+        }else {
+	        Boolean result = teacherService.save(teacherCustom);
+	
+	        if (!result) {
+	            model.addAttribute("message", "工号重复");
+	            return "error";
+	        }
+	        //添加成功后，也添加到登录表
+	        Userlogin userlogin = new Userlogin();
+	        userlogin.setUsername(teacherCustom.getUserid().toString());
+	        userlogin.setPassword("123");
+	        userlogin.setRole(1);
+	        userloginService.save(userlogin);
+	
+	        //重定向
+	        return "redirect:/admin/showTeacher?pageNum="+Integer.MAX_VALUE;
         }
-        //添加成功后，也添加到登录表
-        Userlogin userlogin = new Userlogin();
-        userlogin.setUsername(teacherCustom.getUserid().toString());
-        userlogin.setPassword("123");
-        userlogin.setRole(1);
-        userloginService.save(userlogin);
-
-        //重定向
-        return "redirect:/admin/showTeacher?pageNum="+Integer.MAX_VALUE;
     }
 
     // 修改教师信息页面显示
@@ -199,12 +244,27 @@ public class AdminController {
 
     // 修改教师信息页面处理
     @RequestMapping(value = "/editTeacher", method = {RequestMethod.POST})
-    public String editTeacher(TeacherCustom teacherCustom,@RequestParam("pageNum") Integer pageNum) throws Exception {
-
-        teacherService.updateById(teacherCustom.getUserid(), teacherCustom);
-
-        //重定向
-        return "redirect:/admin/showTeacher?pageNum="+pageNum;
+    public String editTeacher(@Valid TeacherCustom teacherCustom,BindingResult binding,
+    		@RequestParam("pageNum") Integer pageNum,Model model) throws Exception {
+    	HashMap<String,String> hashMap = new HashMap<String, String>();
+  	  	if (binding.hasErrors()) {
+			 List<FieldError> list = binding.getFieldErrors();
+			 for(FieldError err:list) {
+				 hashMap.put(err.getField(), err.getDefaultMessage());
+			 }
+			 model.addAttribute("mes", hashMap);
+			 TeacherCustom editTeacher = teacherService.findById(teacherCustom.getUserid());
+			 List<College> collegeList = collegeService.finAll();
+			 
+			 model.addAttribute("teacher", editTeacher);
+		     model.addAttribute("collegeList", collegeList);
+  		 return "admin/editTeacher";
+        }else {
+	        teacherService.updateById(teacherCustom.getUserid(), teacherCustom);
+	
+	        //重定向
+	        return "redirect:/admin/showTeacher?pageNum="+pageNum;
+        }
     }
 
     //删除教师
@@ -252,18 +312,34 @@ public class AdminController {
 
     // 添加课程信息处理
     @RequestMapping(value = "/addCourse", method = {RequestMethod.POST})
-    public String addCourse(CourseCustom courseCustom, Model model) throws Exception {
+    public String addCourse(@Valid CourseCustom courseCustom,BindingResult binding, Model model) throws Exception {
 
-        Boolean result = courseService.save(courseCustom);
+    	
+    	HashMap<String,String> hashMap = new HashMap<String, String>();
+  	    if (binding.hasErrors()) {
+			 List<FieldError> list = binding.getFieldErrors();
+			 for(FieldError err:list) {
+				 hashMap.put(err.getField(), err.getDefaultMessage());
+			 }
+			 model.addAttribute("mes", hashMap);
+			 List<TeacherCustom> teacherList = teacherService.findAll();
+	         List<College> collegeList = collegeService.finAll();
 
-        if (!result) {
-            model.addAttribute("message", "课程号重复");
-            return "error";
+	         model.addAttribute("collegeList", collegeList);
+	         model.addAttribute("teacherList", teacherList);
+			 return "admin/addCourse";
+        }else {
+	        Boolean result = courseService.save(courseCustom);
+	
+	        if (!result) {
+	            model.addAttribute("message", "课程号重复");
+	            return "error";
+	        }
+	
+	
+	        //重定向
+	        return "redirect:/admin/showCourse?pageNum="+Integer.MAX_VALUE;
         }
-
-
-        //重定向
-        return "redirect:/admin/showCourse?pageNum="+Integer.MAX_VALUE;
     }
 
     // 修改课程信息页面显示
@@ -289,12 +365,32 @@ public class AdminController {
 
     // 修改课程信息页面处理
     @RequestMapping(value = "/editCourse", method = {RequestMethod.POST})
-    public String editCourse(CourseCustom courseCustom,@RequestParam("pageNum") Integer pageNum) throws Exception {
+    public String editCourse(@Valid CourseCustom courseCustom,BindingResult binding,
+    		@RequestParam("pageNum") Integer pageNum,Model model) throws Exception {
 
-        courseService.upadteById(courseCustom.getCourseid(), courseCustom);
+    	
+    	HashMap<String,String> hashMap = new HashMap<String, String>();
+    	if(binding.hasErrors()) {
+    		List<FieldError> errors = binding.getFieldErrors();
+    		for(FieldError err:errors) {
+    			hashMap.put(err.getField(), err.getDefaultMessage());
+    		}
+    		model.addAttribute("mes", hashMap);
+    		CourseCustom courseCus = courseService.findById(courseCustom.getCourseid());
+            List<TeacherCustom> list = teacherService.findAll();
+            List<College> collegeList = collegeService.finAll();
 
-        //重定向
-        return "redirect:/admin/showCourse?pageNum="+pageNum;
+            model.addAttribute("teacherList", list);
+            model.addAttribute("collegeList", collegeList);
+            model.addAttribute("course", courseCus);
+    		return "admin/editCourse";
+    	}else {
+    		
+    		courseService.upadteById(courseCustom.getCourseid(), courseCustom);
+    		
+    		//重定向
+    		return "redirect:/admin/showCourse?pageNum="+pageNum;
+    	}
     }
 
     // 删除课程信息

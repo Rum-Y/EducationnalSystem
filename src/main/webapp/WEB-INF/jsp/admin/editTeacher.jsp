@@ -33,6 +33,7 @@
 							      <input readonly="readonly" type="number" class="form-control" id="inputEmail3" name="userid" placeholder="请输入工号" value="${teacher.userid}">
 							    </div>
 							  </div>
+							  <p>${mes.username}</p>
 							  <div class="form-group">
 							    <label for="inputPassword3" class="col-sm-2 control-label">姓名</label>
 							    <div class="col-sm-10">

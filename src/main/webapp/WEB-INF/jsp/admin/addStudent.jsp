@@ -25,6 +25,7 @@
 				    </div>
 				    <div class="panel-body">
 						<form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/admin/addStudent" id="editfrom" method="post">
+							  <p>${mes.userid}</p>
 							  <div class="form-group">
 							    <label for="inputEmail3" class="col-sm-2 control-label">学号</label>
 							    <div class="col-sm-10">
@@ -34,6 +35,7 @@
 								  </c:if>>
 							    </div>
 							  </div>
+							  <p>${mes.username}</p>
 							  <div class="form-group">
 							    <label for="inputPassword3" class="col-sm-2 control-label">姓名</label>
 							    <div class="col-sm-10">

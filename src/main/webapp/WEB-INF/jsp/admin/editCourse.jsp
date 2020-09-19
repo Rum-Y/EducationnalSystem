@@ -26,12 +26,14 @@
 				    <div class="panel-body">
 						<form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/admin/editCourse" id="editfrom" method="post">
 							  <input type="hidden" name="pageNum" value="${param.pageNum}"/>
+							  <p>${mes.courseid}</p>
 							  <div class="form-group">
 							    <label for="inputEmail3" class="col-sm-2 control-label">课程号</label>
 							    <div class="col-sm-10">
 							      <input readonly="readonly"  type="number" class="form-control" id="inputEmail3" value="${course.courseid}" name="courseid" placeholder="请输入课程号">
 							    </div>
 							  </div>
+							  <p>${mes.coursename}</p>
 							  <div class="form-group">
 							    <label for="inputPassword3" class="col-sm-2 control-label">课程名称</label>
 									<div class="col-sm-10">
@@ -48,12 +50,14 @@
 									  </select>
 								  </div>
 							  </div>
+							  <p>${mes.coursetime}</p>
 							<div class="form-group">
 								<label for="inputPassword3" class="col-sm-2 control-label">上课时间</label>
 								<div class="col-sm-10">
 									<input type="text" class="form-control" name="coursetime" value="${course.coursetime}" placeholder="请输入上课时间">
 								</div>
 							</div>
+							<p>${mes.classroom}</p>
 							<div class="form-group">
 								<label for="inputPassword3" class="col-sm-2 control-label">上课地点</label>
 								<div class="col-sm-10">

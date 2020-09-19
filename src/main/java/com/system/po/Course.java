@@ -1,14 +1,25 @@
 package com.system.po;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Course {
+	
+	@NotNull(message = "不能为空")
     private Integer courseid;
 
+	@NotNull(message = "不能为空")
+	@Size(min = 2,message = "必须填写两个以上的字符")
     private String coursename;
 
     private Integer teacherid;
 
+    @NotNull(message = "不能为空")
+	@Size(min = 2,message = "填写星期几")
     private String coursetime;
 
+    @NotNull(message = "不能为空")
+	@Size(min = 4,message = "必须填写3个以上字符的教室名")
     private String classroom;
 
     private Integer courseweek;

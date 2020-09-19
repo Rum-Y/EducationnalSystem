@@ -2,9 +2,21 @@ package com.system.po;
 
 import java.util.Date;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+
 public class Student {
+	
+	@NotNull(message = "不能为空")
+	@Min(value=10001,message = "最小值是10001")
+	@Max(value = 19999,message = "最大值是19999")
     private Integer userid;
 
+	@NotNull(message = "不能为空")
+	@Size(min = 1,message = "必须填写一个以上的字符")
     private String username;
 
     private String sex;
